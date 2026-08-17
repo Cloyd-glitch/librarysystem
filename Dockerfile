@@ -1,3 +1,12 @@
+# Stage 1: Build frontend assets with Vite
+FROM node:20-alpine AS node_builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Stage 2: PHP application
 FROM php:8.3-fpm
 
 # Install system dependencies including PostgreSQL dev library
@@ -15,6 +24,9 @@ WORKDIR /var/www/html
 
 # Copy application files
 COPY . .
+
+# Copy built frontend assets from the node_builder stage
+COPY --from=node_builder /app/public/build ./public/build
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
