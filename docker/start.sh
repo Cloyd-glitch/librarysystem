@@ -4,6 +4,7 @@ echo "=== DEBUG: manifest.json contents ==="
 cat public/build/manifest.json 2>/dev/null || echo "manifest.json not found"
 echo "=== END DEBUG ==="
 
+php artisan config:clear
 php artisan storage:link
 php artisan route:cache
 php artisan view:cache
