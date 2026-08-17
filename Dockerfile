@@ -16,5 +16,8 @@ RUN chmod +x docker/start.sh \
 
 COPY docker/nginx.conf /etc/nginx/sites-available/default
 
+# Install PostgreSQL PDO extension
+RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql
+
 EXPOSE 10000
 CMD ["docker/start.sh"]
